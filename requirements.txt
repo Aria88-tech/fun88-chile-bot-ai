@@ -1,8 +1,3 @@
-services:
-  - type: web
-    name: fun88-chile-bot-ai
-    env: python
-    region: oregon
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "python main.py"
-    plan: free
+python-telegram-bot==20.8
+nest_asyncio
+openai
