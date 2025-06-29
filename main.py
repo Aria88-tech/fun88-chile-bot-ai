@@ -18,6 +18,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Aquí obtienes el token
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+print(f"TOKEN: {repr(TOKEN)}")  # Esto imprimirá el token o None
 
 # Validación para evitar el error InvalidToken
 if not TOKEN:
