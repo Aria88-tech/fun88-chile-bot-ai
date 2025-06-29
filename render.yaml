@@ -7,8 +7,5 @@ services:
     startCommand: "python main.py"
     envVars:
       - key: TELEGRAM_BOT_TOKEN
-        sync: false
       - key: OPENAI_API_KEY
-        sync: false
-
 
