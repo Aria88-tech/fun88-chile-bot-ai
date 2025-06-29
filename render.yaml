@@ -2,6 +2,7 @@ services:
   - type: web
     name: fun88-chile-bot-ai
     env: python
+    pythonVersion: "3.11.9"
     buildCommand: "pip install -r requirements.txt"
     startCommand: "python main.py"
     envVars:
