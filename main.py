@@ -14,21 +14,22 @@ import nest_asyncio
 
 nest_asyncio.apply()
 
+# Cargar claves API desde variables de entorno
 openai.api_key = os.getenv("OPENAI_API_KEY")
-
-# Aquí obtienes el token
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-print(f"TOKEN: {repr(TOKEN)}")  # Esto imprimirá el token o None
 
-# Validación para evitar el error InvalidToken
+# Validar token para evitar error InvalidToken
 if not TOKEN:
     print("ERROR: La variable de entorno TELEGRAM_BOT_TOKEN no está configurada o está vacía.", file=sys.stderr)
+    sys.exit(1)
+
+if not openai.api_key:
+    print("ERROR: La variable de entorno OPENAI_API_KEY no está configurada o está vacía.", file=sys.stderr)
     sys.exit(1)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Aquí sigue el resto de tu código igual
 WELCOME_MESSAGE = """
 🙌 ¡Qué bueno tenerte aquí!
 Este grupo es para jugadores que quieren aprovechar todos los beneficios de Fun88 Chile.
@@ -92,5 +93,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
