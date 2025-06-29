@@ -2,8 +2,12 @@ services:
   - type: web
     name: fun88-chile-bot-ai
     env: python
-    region: oregon
     buildCommand: "pip install -r requirements.txt"
     startCommand: "python main.py"
-    plan: free
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+
 
