@@ -13,18 +13,15 @@ import nest_asyncio
 
 nest_asyncio.apply()
 
-# Configura la API de OpenAI desde variables de entorno
 openai.api_key = os.getenv("OPENAI_API_KEY")
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
-# Configura logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Mensaje de bienvenida automático
 WELCOME_MESSAGE = """
 🙌 ¡Qué bueno tenerte aquí!
-Este grupo es para jugadores que quieren aprovechar todos los beneficios de Fun88.
+Este grupo es para jugadores que quieren aprovechar todos los beneficios de Fun88 Chile.
 💬 Comparte tus jugadas
 🎁 Reclama tus bonos
 📲 Revisa nuestras promociones: https://www.fun88chile.com/promotions
@@ -33,7 +30,6 @@ Para empezar, dime: ¿Qué tipo de bonos te gustan más?
 🎰 Tragamonedas / ⚽ Deportes / 🃏 Casino en Vivo
 """
 
-# Diccionario de respuestas automatizadas
 RESPUESTAS = {
     "cómo deposito": """💰 ¿Cómo hacer un depósito en Fun88?
 
@@ -52,10 +48,8 @@ RESPUESTAS = {
     "bono": "🎁 Puedes revisar los bonos disponibles aquí: https://www.fun88chile.com/promotions",
 }
 
-
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(WELCOME_MESSAGE)
-
 
 async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
     mensaje = update.message.text.lower()
@@ -65,12 +59,11 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text(respuesta)
             return
 
-    # Si no hay coincidencia, usa OpenAI como respaldo
     try:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "Responde como un asistente de soporte de Fun88 Chile."},
+                {"role": "system", "content": "Actúa como asistente de soporte de Fun88 Chile."},
                 {"role": "user", "content": mensaje}
             ]
         )
@@ -80,16 +73,12 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
         logger.error(f"Error con OpenAI: {e}")
         await update.message.reply_text("Lo siento, no puedo responder eso ahora.")
 
-
 def main():
     app = ApplicationBuilder().token(TOKEN).build()
-
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), responder))
-
     logger.info("Bot iniciado con éxito.")
     app.run_polling()
-
 
 if __name__ == '__main__':
     main()
